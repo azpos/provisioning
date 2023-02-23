@@ -1,0 +1,102 @@
+---
+- name: "Setup centos"
+  hosts: "all"
+  gather_facts: false
+
+  tasks:
+    - name: "Gather required facts"
+      ansible.builtin.setup:
+        gather_subset:
+          - '!all'
+          - '!min'
+          - "os_family"
+
+    # - name: "Check distribution"
+    #   raw: "test -e /etc/redhat-release && echo -n true || echo -n false"
+    #   register: "is_redhat"
+
+    - name: "Login to azcopy"
+      ansible.builtin.command: "azcopy login --identity"
+
+    - name: "Add `azuser` to `rdma` group"
+      become: true
+      ansible.builtin.user:
+        name: "azuser"
+        groups: "rdma"
+        append: true
+
+    - name: "Mount scratch disk"
+      become: true
+      ansible.builtin.script: "setup_scratch.sh"
+      args:
+        creates: "/scratch"
+
+    - name: "Install dependencies - RedHat"
+      # when: "is_redhat.stdout == 'true'"
+      when: "ansible_os_family == 'RedHat'"
+      become: true
+      block:
+
+      - name: "Install EPEL repo"
+        ansible.builtin.yum:
+          name: "epel-release"
+          state: "present"
+
+      - name: "Install yum dependencies"
+        yum:
+          name:
+            - "iperf"
+            - "jq"
+            - "nfs-utils"
+            - "nmap"
+            - "qperf"
+            - "stow"
+            - "tree"
+          state: "present"
+
+    - name: "Install dependencies - Ubuntu"
+      # when: "is_redhat.stdout == 'false'"
+      when: "ansible_os_family != 'RedHat'"
+      block:
+        - name: "Apt dependencies"
+          become: true
+          ansible.builtin.apt:
+            pkg:
+              - "bat"
+              - "fd-find"
+              - "iperf"
+              - "kitty-terminfo"
+              - "nfs-common"
+              - "nfs-kernel-server"
+              - "qperf"
+              - "silversearcher-ag"
+              - "stow"
+              - "tree"
+            state: "present"
+            update_cache: true
+            install_recommends: false
+            lock_timeout: 60
+            cache_valid_time: 3600
+
+    - name: "Setup dotfiles"
+      ansible.builtin.script: "setup_dotfiles.sh"
+      args:
+        creates: "/home/azuser/.dotfiles"
+
+    - name: "Setup conda (if necessary)"
+      ansible.builtin.script: "setup_conda.sh"
+      args:
+        creates: "/home/azuser/miniconda/envs/schism_env"
+
+    - name: "Git checkout schism"
+      ansible.builtin.git:
+        repo: "https://github.com/schism-dev/schism"
+        dest: "/home/azuser/schism-repo"
+        version: "v5.9.0"
+
+    - name: "Setup SSH (if necessary)"
+      ansible.builtin.script: "setup_ssh.sh"
+      args:
+        creates: "/home/azuser/.ssh/id_rsa"
+      tags:
+        - "ssh"

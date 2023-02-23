@@ -1,0 +1,7 @@
+---
+auto_activate_base: True
+changeps1: True
+channel_priority: strict
+channels:
+  - conda-forge
+  - gbrey
