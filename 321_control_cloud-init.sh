@@ -2,4 +2,5 @@
 
 set -xeuo pipefail
 
-runuser --pty -u azuser -- ansible-pull -U https://github.com/azpos/provisioning playbook.yml -i "$(hostname --short),"
+export PYTHONUNBUFFERED=True
+runuser --pty -u azuser -l -w PYTHONUNBUFFERED -- ansible-pull -U https://github.com/azpos/provisioning playbooks/control/playbook.yml -i "$(hostname --short),"
