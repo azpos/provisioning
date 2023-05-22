@@ -21,9 +21,9 @@ vm_sku='Standard_HB120rs_v3'
 vmss_name="${GROUP_PREFIX}"-vmss
 image_name='microsoft-dsvm:ubuntu-hpc:2004:latest'
 
-# if az vmss show --name "${vmss_name}" --resource-group "${RESOURCE_GROUP}" > /dev/null; then
-#   : "VMSS already exists. Skipping creation: %{vmss_name}"
-# else
+if az vmss show --name "${vmss_name}" --resource-group "${RESOURCE_GROUP}" > /dev/null; then
+  : "VMSS already exists. Skipping creation: %{vmss_name}"
+else
   : "Creating ${vmss_name}"
   az vmss create \
     --resource-group "${RESOURCE_GROUP}" \
@@ -56,9 +56,9 @@ image_name='microsoft-dsvm:ubuntu-hpc:2004:latest'
     --nsg /subscriptions/"${AZURE_SUBSCRIPTION_ID}"/resourceGroups/"${INFRA_PREFIX}"-rg/providers/Microsoft.Network/networkSecurityGroups/"${COMPUTE_NSG}" \
     --public-ip-per-vm \
     --instance-count 0 \
-  | jq
+    --output yamlc
   : "Created ${vmss_name}"
-# fi
+fi
 
     # --eviction-policy delete \
     # --priority Regular \
@@ -72,7 +72,7 @@ az vmss extension set \
   --resource-group "${RESOURCE_GROUP}" \
   --name InfiniBandDriverLinux \
   --publisher Microsoft.HpcCompute \
-| jq
+  --output yamlc
 
 # It seems that role assignment only works for keyvaults within the same resource group.
 # In other words, the `--scope argument seems to be partially parsed  - the first resource-group definition is ignored
@@ -85,7 +85,7 @@ az vmss extension set \
 : "Give access to the keyvault to the system-managed identity"
 az vmss identity assign \
   --role '4633458b-17de-408a-b874-0445c86b69e6' \
-  --scope '/subscriptions/7bc94fc6-8e36-4346-b7f3-915ea163e314/resourceGroups/ppw-dev-infra-rg/providers/Microsoft.KeyVault/vaults/ppw-dev-kv' \
-  --resource-group ppw-dev-compute-rg \
-  --name ppw-dev-compute-ubuntu-vmss \
-| jq
+  --scope /subscriptions/"${AZURE_SUBSCRIPTION_ID}"/resourceGroups/"${INFRA_RG}"/providers/Microsoft.KeyVault/vaults/"${KEYVAULT}" \
+  --resource-group "${RESOURCE_GROUP}" \
+  --name "${vmss_name}" \
+  --output yamlc

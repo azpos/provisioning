@@ -14,5 +14,6 @@ az group create \
          environment="${ENVIRONMENT}" \
          location="${LOCATION}" \
          group="${GROUP_NAME}" \
-  --name "${RESOURCE_GROUP}"
+  --name "${RESOURCE_GROUP}" \
+  --output yamlc
 : " ----> Created group: ${RESOURCE_GROUP}"

@@ -23,7 +23,7 @@ else
   az vm create \
     --resource-group "${RESOURCE_GROUP}" \
     --name "${CONTROL_VM_NAME}" \
-    --size "Standard_E8-2ads_v5" \
+    --size "Standard_E4ads_v5" \
     --image "${image_name}" \
     --accelerated-networking true \
     --public-ip-sku Standard \
@@ -34,9 +34,9 @@ else
     --priority Spot \
     --max-price -1 \
     --eviction-policy 'delete' \
-    --subnet /subscriptions/"${AZURE_SUBSCRIPTION_ID}"/resourceGroups/"${INFRA_PREFIX}"-rg/providers/Microsoft.Network/virtualNetworks/"${VNET}"/subnets/"${COMPUTE_SNET}" \
-    --nsg /subscriptions/"${AZURE_SUBSCRIPTION_ID}"/resourceGroups/"${INFRA_PREFIX}"-rg/providers/Microsoft.Network/networkSecurityGroups/"${COMPUTE_NSG}" \
-    --ssh-key-values "${SSH_CONNECT_PUBLIC}" \
+    --ssh-key-values "${SSH_PUBLIC_KEY}" \
+    --subnet /subscriptions/"${AZURE_SUBSCRIPTION_ID}"/resourceGroups/"${INFRA_RG}"/providers/Microsoft.Network/virtualNetworks/"${VNET}"/subnets/"${COMPUTE_SNET}" \
+    --nsg /subscriptions/"${AZURE_SUBSCRIPTION_ID}"/resourceGroups/"${INFRA_RG}"/providers/Microsoft.Network/networkSecurityGroups/"${COMPUTE_NSG}" \
     --tags project="${PROJECT}" \
            environment="${ENVIRONMENT}" \
            location="${LOCATION}" \
@@ -76,11 +76,11 @@ az vm identity assign \
   --output yamlc
 
 
-# : "Assign Virtual Machine Contributor to the VM in order to let it scale up/down the scale set"
-#az vm identity assign \
-#  --identities '[system]' \
-#  --role '9980e02c-c2be-4d73-94e8-173b1dc7cf3c' `# Virual machine Contributor` \
-#  --scope "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/${COMPUTE_PREFIX}"-rg \
-#  --resource-group "${RESOURCE_GROUP}" \
-#  --name "${CONTROL_VM_NAME}" \
-#  --output yamlc
+: "Assign Virtual Machine Contributor to the VM in order to let it scale up/down the scale set"
+az vm identity assign \
+ --identities '[system]' \
+ --role '9980e02c-c2be-4d73-94e8-173b1dc7cf3c' `# Virual machine Contributor` \
+ --scope "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/${COMPUTE_PREFIX}"-rg \
+ --resource-group "${RESOURCE_GROUP}" \
+ --name "${CONTROL_VM_NAME}" \
+ --output yamlc

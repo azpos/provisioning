@@ -1,0 +1,41 @@
+{
+  "id": "/subscriptions/{{ AZURE_SUBSCRIPTION_ID }}/resourceGroups/{{ CONTROL_RG }}/providers/Microsoft.Security/locations/{{ LOCATION }}/jitNetworkAccessPolicies/default",
+  "kind": "Basic",
+  "location": "{{ LOCATION }}",
+  "name": "default",
+  "type": "Microsoft.Security/locations/jitNetworkAccessPolicies",
+  "properties": {
+    "virtualMachines": [
+      {
+        "id": "/subscriptions/{{ AZURE_SUBSCRIPTION_ID }}/resourceGroups/{{ CONTROL_RG }}/providers/Microsoft.Compute/virtualMachines/{{ CONTROL_VM_NAME }}",
+        "ports": [
+          {
+            "allowedSourceAddressPrefix": "*",
+            "maxRequestAccessDuration": "PT24H",
+            "number": 22,
+            "protocol": "*"
+          }
+        ]
+      }
+    ],
+    "requests": [
+      {
+        "virtualMachines": [
+          {
+            "id": "/subscriptions/{{ AZURE_SUBSCRIPTION_ID }}/resourceGroups/{{ CONTROL_RG }}/providers/Microsoft.Compute/virtualMachines/{{ CONTROL_VM_NAME }}",
+            "ports": [
+              {
+                "number": 22,
+                "allowedSourceAddressPrefix": "{{ MYIP }}",
+                "endTimeUtc": "{{ (now('UTC') + timedelta(hours=1)).isoformat() }}",
+                "statusReason": "UserRequested"
+              }
+            ]
+          }
+        ],
+        "startTimeUtc": "{{ now('UTC').isoformat() }}",
+        "requestor": "{{ 'whoami' | shell }}"
+      }
+    ]
+  }
+}

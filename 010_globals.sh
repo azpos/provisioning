@@ -5,7 +5,7 @@ set -euo pipefail
 source 000_parameters.sh
 
 # export SSH_PRIVATE_KEY=~/.ssh/coastal.pem
-# export SSH_PUBLIC_KEY=~/.ssh/coastal.pub.pem
+export SSH_PUBLIC_KEY=~/.ssh/coastal.pub.pem
 
 # Group names
 export INFRA="infra"
@@ -22,13 +22,18 @@ export COMPUTE_PREFIX="${BASE_PREFIX}"-"${COMPUTE}"
 export CONTROL_PREFIX="${BASE_PREFIX}"-"${CONTROL}"
 # export VISUALZ_PREFIX="${BASE_PREFIX}"-"${VISUALZ}"
 
+export INFRA_RG="${INFRA_PREFIX}"-rg
+export ARCHIVE_RG="${ARCHIVE_PREFIX}"-rg
+export COMPUTE_RG="${COMPUTE_PREFIX}"-rg
+export CONTROL_RG="${CONTROL_PREFIX}"-rg
+
 # Networking - Virtual Network
 export VNET="${BASE_PREFIX}"-vnet
 export KEYVAULT="${BASE_PREFIX}"-kv
 
 # Networking - Subnets
 export COMPUTE_SNET="${COMPUTE_PREFIX}"-snet
-export CONTROL_SNET="${CONTROL_PREFIX}"-snet
+# export CONTROL_SNET="${CONTROL_PREFIX}"-snet
 # export VISUALZ_SNET="${VISUALZ_PREFIX}"-snet
 
 # Networking - Network Security Groups
@@ -45,3 +50,7 @@ export ADMIN_USERNAME=azuser
 # - The compute key is the one that the HPC nodes are using in order to connect to one another. This is uploaded to the keyvault
 export SSH_COMPUTE=~/.ssh/"${BASE_PREFIX}"-compute.pem
 export SSH_COMPUTE_PUBLIC="${SSH_COMPUTE}".pub
+
+export MYIP=$(curl -s --fail http://whatismyip.akamai.com/)
+
+export CONTROL_VM_NAME="${CONTROL_PREFIX}"-vm
