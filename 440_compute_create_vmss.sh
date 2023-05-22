@@ -15,10 +15,10 @@ set -x
 
 vm_sku='Standard_HB120rs_v3'
 
-vmss_name="${GROUP_PREFIX}"-centos-vmss
-image_name='OpenLogic:CentOS-HPC:7_9-gen2:latest'
+# vmss_name="${GROUP_PREFIX}"-centos-vmss
+# image_name='OpenLogic:CentOS-HPC:7_9-gen2:latest'
 
-vmss_name="${GROUP_PREFIX}"-ubuntu-vmss
+vmss_name="${GROUP_PREFIX}"-vmss
 image_name='microsoft-dsvm:ubuntu-hpc:2004:latest'
 
 # if az vmss show --name "${vmss_name}" --resource-group "${RESOURCE_GROUP}" > /dev/null; then
@@ -32,11 +32,13 @@ image_name='microsoft-dsvm:ubuntu-hpc:2004:latest'
     --enable-agent true \
     --enable-auto-update false \
     --orchestration-mode uniform \
-    --priority Regular \
+    --eviction-policy delete \
+    --priority Spot \
+    --max-price -1 \
     --ppg "${PPG_NAME}" \
     --single-placement-group true \
     --image "${image_name}" \
-    --custom-data 441_cloud-init.sh \
+    --custom-data 441_compute_cloud-init.sh \
     --accelerated-networking true \
     --admin-username azuser \
     --assign-identity '[system]' \
@@ -58,8 +60,8 @@ image_name='microsoft-dsvm:ubuntu-hpc:2004:latest'
   : "Created ${vmss_name}"
 # fi
 
-    # --custom-data "$(base64 --wrap=0 441_cloud-init.sh)" \
     # --eviction-policy delete \
+    # --priority Regular \
     # --priority Spot \
     # --max-price -1 \
 
