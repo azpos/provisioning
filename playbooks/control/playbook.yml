@@ -60,11 +60,13 @@
 
     - name: "Setup pipx (if necessary)"
       ansible.builtin.script: "setup_pipx.sh"
+      ignore_errors: true
       args:
         creates: "/home/azuser/.local/bin/pipx"
 
     - name: "Setup ntfy (if necessary)"
       ansible.builtin.script: "setup_ntfy.sh"
+      ignore_errors: true
       args:
         creates: "/home/azuser/.local/bin/ntfy"
 
