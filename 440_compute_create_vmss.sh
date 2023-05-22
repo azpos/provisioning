@@ -40,6 +40,7 @@ else
     --image "${image_name}" \
     --custom-data 441_compute_cloud-init.sh \
     --accelerated-networking true \
+    --authentication-type all \
     --admin-username azuser \
     --assign-identity '[system]' \
     --tags project="${PROJECT}" \
@@ -47,14 +48,13 @@ else
            location="${LOCATION}" \
            group="${GROUP_NAME}" \
            date="$(date)" \
-    --ssh-key-values "${SSH_PUBLIC_KEY}" \
+    --ssh-key-values "${SSH_COMPUTE_PUBLIC}" \
     --vm-sku "${vm_sku}" \
     --zones 2 \
     --lb "" \
     --lb-sku Standard \
     --subnet /subscriptions/"${AZURE_SUBSCRIPTION_ID}"/resourceGroups/"${INFRA_PREFIX}"-rg/providers/Microsoft.Network/virtualNetworks/"${VNET}"/subnets/"${COMPUTE_SNET}" \
     --nsg /subscriptions/"${AZURE_SUBSCRIPTION_ID}"/resourceGroups/"${INFRA_PREFIX}"-rg/providers/Microsoft.Network/networkSecurityGroups/"${COMPUTE_NSG}" \
-    --public-ip-per-vm \
     --instance-count 0 \
     --output yamlc
   : "Created ${vmss_name}"

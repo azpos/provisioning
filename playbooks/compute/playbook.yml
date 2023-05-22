@@ -60,16 +60,6 @@
       tags:
         - "ssh"
 
-    - name: "Setup pipx (if necessary)"
-      ansible.builtin.script: "setup_pipx.sh"
-      args:
-        creates: "/home/azuser/.local/bin/pipx"
-
-    - name: "Setup ntfy (if necessary)"
-      ansible.builtin.script: "setup_ntfy.sh"
-      args:
-        creates: "/home/azuser/.local/bin/ntfy"
-
     - name: "Setup /mnt"
       become: true
       ansible.builtin.file:
@@ -81,6 +71,18 @@
       ansible.builtin.script: "setup_conda.sh"
       args:
         creates: "/mnt/envs/schism_env"
+
+    - name: "Setup pipx (if necessary)"
+      ansible.builtin.script: "setup_pipx.sh"
+      ignore_errors: true
+      args:
+        creates: "/home/azuser/.local/bin/pipx"
+
+    - name: "Setup ntfy (if necessary)"
+      ansible.builtin.script: "setup_ntfy.sh"
+      ignore_errors: true
+      args:
+        creates: "/home/azuser/.local/bin/ntfy"
 
     - name: "Login to azcopy"
       ansible.builtin.command: "azcopy login --identity"
