@@ -37,14 +37,14 @@ az role assignment create \
 | jq
 
 :
-if az keyvault secret show --vault-name ppw-dev-kv --name ppw-dev-infra-cluster-ssh-key >/dev/null; then
-  : "Cluster SSH key already in the keyvault. Skipping"
+if az keyvault secret show --vault-name ppw-dev-kv --name ppw-dev-infra-compute-ssh-key >/dev/null; then
+  : "COMPUTE SSH key already in the keyvault. Skipping"
 else
-  : "Storing cluster SSH key in the keyvault"
+  : "Storing COMPUTE SSH key in the keyvault"
   az keyvault secret set \
     --vault-name "${KEYVAULT}" \
-    --name "${GROUP_PREFIX}"-cluster-ssh-key \
-    --description "Cluster SSH private key" \
-    --file "${SSH_CLUSTER}" \
+    --name "${GROUP_PREFIX}"-compute-ssh-key \
+    --description "Compute SSH private key" \
+    --file "${SSH_COMPUTE}" \
   | jq 'del(.value)'
 fi

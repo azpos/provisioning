@@ -7,25 +7,12 @@ source 100_infra_variables.sh
 
 set -x
 
-: "Uploading ${SSH_CONNECT_PUBLIC}"
+: "Uploading ${SSH_COMPUTE_PUBLIC}"
 az sshkey create \
   --location "${LOCATION}" \
   --resource-group "${RESOURCE_GROUP}" \
-  --public-key "@${SSH_CONNECT_PUBLIC}" \
-  --name "${GROUP_PREFIX}-connect-ssh" \
-  --tags project="${PROJECT}" \
-         environment="${ENVIRONMENT}" \
-         location="${LOCATION}" \
-         group="${GROUP_NAME}" \
-| jq
-
-
-: "Uploading ${SSH_CLUSTER_PUBLIC}"
-az sshkey create \
-  --location "${LOCATION}" \
-  --resource-group "${RESOURCE_GROUP}" \
-  --public-key "@${SSH_CLUSTER_PUBLIC}" \
-  --name "${GROUP_PREFIX}-cluster-ssh" \
+  --public-key "@${SSH_COMPUTE_PUBLIC}" \
+  --name "${GROUP_PREFIX}-compute-ssh" \
   --tags project="${PROJECT}" \
          environment="${ENVIRONMENT}" \
          location="${LOCATION}" \

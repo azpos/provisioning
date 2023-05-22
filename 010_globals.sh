@@ -4,8 +4,8 @@ set -euo pipefail
 
 source 000_parameters.sh
 
-export SSH_PRIVATE_KEY=~/.ssh/coastal.pem
-export SSH_PUBLIC_KEY=~/.ssh/coastal.pub.pem
+# export SSH_PRIVATE_KEY=~/.ssh/coastal.pem
+# export SSH_PUBLIC_KEY=~/.ssh/coastal.pub.pem
 
 # Group names
 export INFRA="infra"
@@ -42,11 +42,6 @@ export COMPUTE_SSH_KEY="${COMPUTE}"-SSH-KEY
 export ADMIN_USERNAME=azuser
 
 # We have two different SSH key pairs:
-# - The connect key is the one we use in order to connect to the cluster. This is NOT uploaded in Azure
-# - The cluster key is the one that the HPC nodes are using in order to connect to one another. This is uploaded to the keyvault
-#
-# The following code creates the keys if they are missing
-export SSH_CONNECT=~/.ssh/"${BASE_PREFIX}"-connect.pem
-export SSH_CONNECT_PUBLIC="${SSH_CONNECT}".pub
-export SSH_CLUSTER=~/.ssh/"${BASE_PREFIX}"-cluster.pem
-export SSH_CLUSTER_PUBLIC="${SSH_CLUSTER}".pub
+# - The compute key is the one that the HPC nodes are using in order to connect to one another. This is uploaded to the keyvault
+export SSH_COMPUTE=~/.ssh/"${BASE_PREFIX}"-compute.pem
+export SSH_COMPUTE_PUBLIC="${SSH_COMPUTE}".pub
