@@ -64,6 +64,12 @@
       args:
         creates: "/home/azuser/.local/bin/pipx"
 
+    - name: "Setup jaz (if necessary)"
+      ansible.builtin.script: "setup_jaz.sh"
+      ignore_errors: true
+      args:
+        creates: "/home/azuser/.local/bin/jaz"
+
     - name: "Setup ntfy (if necessary)"
       ansible.builtin.script: "setup_ntfy.sh"
       ignore_errors: true
