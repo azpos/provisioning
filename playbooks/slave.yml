@@ -1,0 +1,23 @@
+---
+- name: "Setup Worker VM"
+  hosts: "all"
+  gather_facts: false
+
+  tasks:
+    - name: "Create /scratch/shared"
+      become: true
+      ansible.builtin.file:
+        path: "/scratch/shared"
+        state: "directory"
+        mode: "0755"
+        owner: "azuser"
+        group: "azuser"
+
+    - name: "Mount NFS volume"
+      become: true
+      ansible.posix.mount:
+        src: "10.10.0.5:/scratch/shared"
+        path: "/scratch/shared"
+        opts: "rw,sync,hard"
+        state: "mounted"
+        fstype: "nfs"
