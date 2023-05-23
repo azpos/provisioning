@@ -40,4 +40,5 @@ Host *
 
     PreferredAuthentications=publickey
     StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
 EOF
