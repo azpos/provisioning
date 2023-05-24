@@ -2,4 +2,5 @@
 
 set -xeuo pipefail
 
-runuser --pty -u azuser -- ansible-pull -U https://github.com/azpos/provisioning playbooks/compute/playbook.yml -i "$(hostname --short),"
+export ANSIBLE_CALLBACKS_ENABLED=ansible.posix.profile_tasks
+runuser --pty -u azuser -w ANSIBLE_CALLBACKS_ENABLED -- ansible-pull -U https://github.com/azpos/provisioning playbooks/compute/playbook.yml -i "$(hostname --short),"

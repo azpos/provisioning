@@ -58,7 +58,7 @@
     - name: "Setup conda (if necessary)"
       ansible.builtin.script: "setup_conda.sh"
       args:
-        creates: "/mnt/envs/schism_env"
+        creates: "/mnt/mambaforge/envs/schism_env"
 
     - name: "Setup pipx (if necessary)"
       ansible.builtin.script: "setup_pipx.sh"

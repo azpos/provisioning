@@ -44,11 +44,6 @@
         lock_timeout: 60
         cache_valid_time: 3600
 
-    # - name: "Install azure-cli"
-    #   become: true
-    #   ansible.builtin.script: "setup_azure_cli.sh"
-    #   args:
-    #     creates: "/usr/bin/az"
 
     - name: "Setup dotfiles (if necessary)"
       ansible.builtin.script: "setup_dotfiles.sh"
@@ -72,7 +67,7 @@
     - name: "Setup conda (if necessary)"
       ansible.builtin.script: "setup_conda.sh"
       args:
-        creates: "/mnt/envs/schism_env"
+        creates: "/mnt/mambaforge/envs/schism_env"
 
     - name: "Setup pipx (if necessary)"
       ansible.builtin.script: "setup_pipx.sh"
@@ -88,6 +83,3 @@
 
     - name: "Login to azcopy"
       ansible.builtin.command: "azcopy login --identity"
-
-    # - name: "azure-cli login"
-    #   ansible.builtin.command: "az login --identity"
