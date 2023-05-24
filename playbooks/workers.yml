@@ -16,7 +16,7 @@
     - name: "Mount NFS volume"
       become: true
       ansible.posix.mount:
-        src: "10.10.0.5:/scratch/shared"
+        src: "{{ hostvars[inventory_hostname]['groups']['master'][0] }}:/scratch/shared"
         path: "/scratch/shared"
         opts: "rw,sync,hard"
         state: "mounted"
