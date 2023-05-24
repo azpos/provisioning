@@ -3,7 +3,7 @@
 
 set -Eeuo pipefail
 
-source 300_control_variables.sh
+source ./100_infra_variables.sh
 
 set -x
 
@@ -11,8 +11,8 @@ set -x
 az group create \
   --location "${LOCATION}" \
   --tags project="${PROJECT}" \
-          environment="${ENVIRONMENT}" \
-          location="${LOCATION}" \
-          group="${GROUP_NAME}" \
+         environment="${ENVIRONMENT}" \
+         location="${LOCATION}" \
+         group="${GROUP_NAME}" \
   --name "${RESOURCE_GROUP}"
 : " ----> Created group: ${RESOURCE_GROUP}"

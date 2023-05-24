@@ -3,7 +3,7 @@
 set -euo pipefail
 
 
-source 010_globals.sh
+source ./010_globals.sh
 
 set -x
 

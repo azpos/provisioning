@@ -3,17 +3,18 @@
 
 set -Eeuo pipefail
 
-source 200_archive_variables.sh
+source ./100_infra_variables.sh
 
 set -x
 
-: " ----> Creating group: ${RESOURCE_GROUP}"
-az group create \
+: "Uploading ${SSH_COMPUTE_PUBLIC}"
+az sshkey create \
   --location "${LOCATION}" \
+  --resource-group "${RESOURCE_GROUP}" \
+  --public-key "@${SSH_COMPUTE_PUBLIC}" \
+  --name "${GROUP_PREFIX}-compute-ssh" \
   --tags project="${PROJECT}" \
          environment="${ENVIRONMENT}" \
          location="${LOCATION}" \
          group="${GROUP_NAME}" \
-  --name "${RESOURCE_GROUP}" \
-  --output yamlc
-: " ----> Created group: ${RESOURCE_GROUP}"
+| jq

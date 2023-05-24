@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-source 100_infra_variables.sh
+source ./100_infra_variables.sh
 
 set -x
 

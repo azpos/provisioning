@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-source 300_control_variables.sh
+source ./400_control_variables.sh
 
 set -x
 

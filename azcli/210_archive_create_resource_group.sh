@@ -3,7 +3,7 @@
 
 set -Eeuo pipefail
 
-source 400_compute_variables.sh
+source ./200_archive_variables.sh
 
 set -x
 
@@ -11,8 +11,9 @@ set -x
 az group create \
   --location "${LOCATION}" \
   --tags project="${PROJECT}" \
-          environment="${ENVIRONMENT}" \
-          location="${LOCATION}" \
-          group="${GROUP_NAME}" \
-  --name "${RESOURCE_GROUP}"
+         environment="${ENVIRONMENT}" \
+         location="${LOCATION}" \
+         group="${GROUP_NAME}" \
+  --name "${RESOURCE_GROUP}" \
+  --output yamlc
 : " ----> Created group: ${RESOURCE_GROUP}"

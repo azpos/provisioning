@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-source 000_parameters.sh
+source ./000_parameters.sh
 
 # export SSH_PRIVATE_KEY=~/.ssh/coastal.pem
 export SSH_PUBLIC_KEY=~/.ssh/coastal.pub.pem

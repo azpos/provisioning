@@ -3,7 +3,7 @@
 
 set -Eeuo pipefail
 
-source 400_compute_variables.sh
+source ./300_compute_variables.sh
 
 set -x
 

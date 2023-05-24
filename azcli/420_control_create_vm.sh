@@ -3,7 +3,7 @@
 
 set -Eeuo pipefail
 
-source 300_control_variables.sh
+source ./400_control_variables.sh
 
 set -x
 
@@ -27,7 +27,7 @@ else
     --image "${image_name}" \
     --accelerated-networking true \
     --public-ip-sku Standard \
-    --custom-data 321_control_cloud-init.sh \
+    --custom-data 421_control_cloud-init.sh \
     --priority Regular \
     --admin-username azuser \
     --assign-identity '[system]' \
@@ -45,8 +45,6 @@ else
     --output yamlc
   : "Created ${CONTROL_VM_NAME}"
 fi
-
-    # --custom-data "$(base64 --wrap=0 321_control_cloud-init.sh)" \
 
 az vm extension set \
     --resource-group "${RESOURCE_GROUP}" \

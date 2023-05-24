@@ -3,7 +3,7 @@
 
 set -Eeuo pipefail
 
-source 400_compute_variables.sh
+source ./300_compute_variables.sh
 
 set -x
 
@@ -38,7 +38,7 @@ else
     --ppg "${PPG_NAME}" \
     --single-placement-group true \
     --image "${image_name}" \
-    --custom-data 441_compute_cloud-init.sh \
+    --custom-data 341_compute_cloud-init.sh \
     --accelerated-networking true \
     --authentication-type all \
     --admin-username azuser \
