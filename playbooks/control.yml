@@ -1,0 +1,20 @@
+---
+- name: "Setup Control VM"
+  hosts: "all"
+  gather_facts: false
+
+  tasks:
+    - name: "Install azure-cli"
+      become: true
+      ansible.builtin.script: "setup_azure_cli.sh"
+      args:
+        creates: "/usr/bin/az"
+
+    - name: "azure-cli login"
+      ansible.builtin.command: "az login --identity"
+
+    - name: "Setup jaz (if necessary)"
+      ansible.builtin.script: "setup_jaz.sh"
+      args:
+        creates: "/home/azuser/.local/bin/jaz"
+
