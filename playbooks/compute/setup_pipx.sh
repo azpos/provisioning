@@ -8,8 +8,9 @@ source ~/.bashrc
 
 log "START of: PIPX setup"
 
-python3.9 -m pip install --user pipx
-python3.9 -m pipx ensurepath
+if [ ! -x "$(command -v pipx)" ]; then
+  python3.9 -m pip install --no-warn-script-location --user pipx
+fi
 
 which pipx
 

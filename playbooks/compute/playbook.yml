@@ -71,7 +71,6 @@
 
     - name: "Setup pipx (if necessary)"
       ansible.builtin.script: "setup_pipx.sh"
-      ignore_errors: true
       args:
         creates: "/home/azuser/.local/bin/pipx"
 
