@@ -36,3 +36,6 @@
       ansible.builtin.systemd:
         state: "restarted"
         name: "nfs-kernel-server"
+
+    - name: "Sent notification"
+      ansible.builtin.command: "/home/azuser/.local/bin/ntfy send 'Provisioning of MASTER finished: {{ ansible_date_time.iso8601 }}'"
