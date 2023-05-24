@@ -1,6 +1,6 @@
 ---
 - name: "Setup Master VM"
-  hosts: "all"
+  hosts: "master"
   gather_facts: false
 
   tasks:

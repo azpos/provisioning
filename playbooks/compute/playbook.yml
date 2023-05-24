@@ -1,6 +1,6 @@
 ---
 - name: "Setup Control VM"
-  hosts: "all"
+  hosts: "compute"
   gather_facts: false
 
   tasks:
