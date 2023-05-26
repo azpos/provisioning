@@ -18,5 +18,10 @@
       args:
         creates: "/home/azuser/.local/bin/jaz"
 
-    - name: "Sent notification"
+    - name: "git clone provisioning "
+      ansible.builtin.git:
+        repo: "https://foosball.example.org/path/to/repo.git"
+        dest: "/home/azuser/provisioning"
+
+    - name: "Send notification"
       ansible.builtin.command: "/home/azuser/.local/bin/ntfy send 'Provisioning of CONTROL finished: {{ ansible_date_time.iso8601 }}'"
