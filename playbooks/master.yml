@@ -11,6 +11,12 @@
         regexp: "(nobody|nogroup)"
         replace: "azuser"
 
+    - name: "Mount scratch disk"
+      become: true
+      ansible.builtin.script: "setup_scratch.sh"
+      args:
+        creates: "/scratch"
+
     - name: "Create /scratch/shared"
       become: true
       ansible.builtin.file:
