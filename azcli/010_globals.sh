@@ -2,7 +2,9 @@
 
 set -euo pipefail
 
-source ./000_parameters.sh
+PARENT_DIR=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+
+source "${PARENT_DIR}"/000_parameters.sh
 
 # export SSH_PRIVATE_KEY=~/.ssh/coastal.pem
 export SSH_PUBLIC_KEY=~/.ssh/coastal.pub.pem
