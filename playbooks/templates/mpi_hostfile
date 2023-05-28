@@ -1,0 +1,5 @@
+{% set output = "az vmss nic list --resource-group ppw-dev-compute-rg --vmss-name ppw-dev-compute-vmss  --query '[].ipConfigurations[].privateIPAddress' --output tsv"  | shell -%}
+{%- set cluster_ips = output.splitlines() | sort -%}
+{% for ip in cluster_ips -%}
+  {{ ip }} slots={{ slot_size }}
+{% endfor %}
