@@ -1,0 +1,14 @@
+{
+  "justification": "Panos tests",
+  "virtualMachines": [
+    {
+      "id": "/subscriptions/{{ AZURE_SUBSCRIPTION_ID }}/resourceGroups/{{ CONTROL_RG }}/providers/Microsoft.Compute/virtualMachines/{{ CONTROL_VM_NAME }}",
+      "ports": [
+        {
+          "duration": "PT24H",
+          "number": 22
+        }
+      ]
+    }
+  ]
+}
