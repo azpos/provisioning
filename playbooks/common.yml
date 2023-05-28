@@ -32,11 +32,13 @@
         creates: "/home/azuser/.dotfiles"
 
     - name: "Setup SSH (if necessary)"
+      register: "result"
+      retries: 10
+      delay: 2
+      until: result is not failed
       ansible.builtin.script: "setup_ssh.sh"
       args:
         creates: "/home/azuser/.ssh/id_rsa"
-      tags:
-        - "ssh"
 
     - name: "Setup /mnt"
       become: true
