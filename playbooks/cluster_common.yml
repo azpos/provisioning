@@ -1,0 +1,33 @@
+---
+- name: "Cluster Common Setup"
+  hosts: "all"
+  gather_facts: false
+
+  vars:
+    netdata_room_uuid: "65ab7582-6c5f-480b-bee4-237299b92f93"
+
+  tasks:
+
+    - name: "Add `azuser` to `rdma` group"
+      become: true
+      ansible.builtin.user:
+        name: "azuser"
+        groups: "rdma"
+        append: true
+
+    - name: "Mount scratch disk"
+      become: true
+      ansible.builtin.script: "setup_scratch.sh"
+      args:
+        creates: "/scratch"
+
+    - name: "Install netdata"
+      become: true
+      ansible.builtin.script: "setup_netdata.sh {{ netdata_room_uuid }}"
+      args:
+        creates: "/etc/netdata/netdata.conf"
+
+    - name: "Install schism"
+      ansible.builtin.script: "setup_schism.sh"
+      args:
+        creates: "/mnt/mambaforge/envs/schism_env/bin/schism"

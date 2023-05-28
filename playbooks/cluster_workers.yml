@@ -4,6 +4,18 @@
   gather_facts: false
 
   tasks:
+
+    - name: "Install dependencies"
+      become: true
+      ansible.builtin.apt:
+        pkg:
+          - "nfs-common"
+        state: "present"
+        update_cache: true
+        install_recommends: false
+        lock_timeout: 60
+        cache_valid_time: 3600
+
     - name: "Create /scratch/shared"
       become: true
       ansible.builtin.file:
@@ -22,10 +34,5 @@
         state: "mounted"
         fstype: "nfs"
 
-    - name: "Install schism"
-      ansible.builtin.script: "setup_schism.sh"
-      args:
-        creates: "/mnt/mambaforge/condabin/mamba"
-
     - name: "Sent notification"
-      ansible.builtin.command: "/home/azuser/.local/bin/ntfy send 'Provisioning of WORKER finished: {{ ansible_date_time.iso8601 }}'"
+      ansible.builtin.command: "/home/azuser/.local/bin/ntfy send 'Provisioning of WORKER finished: {{ now(utc=True) }}'"

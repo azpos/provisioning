@@ -4,6 +4,7 @@
   gather_facts: false
 
   tasks:
+
     - name: "Install dependencies"
       become: true
       ansible.builtin.apt:
@@ -12,14 +13,9 @@
           - "bat"
           - "curl"
           - "fd-find"
-          - "iperf"
           - "kitty-terminfo"
-          - "nfs-common"
-          - "nfs-kernel-server"
           - "python3.9"
           - "python3.9-venv"
-          - "python3-venv"
-          - "qperf"
           - "silversearcher-ag"
           - "stow"
           - "tree"

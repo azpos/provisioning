@@ -3,9 +3,10 @@
 
 set -Eeuo pipefail
 
-source utils.sh
-
-log "START of: SCHISM setup"
+log() {
+  printf '%s - %05d sec - %s\n' "$(date +'%T.%3N')" ${SECONDS} "${*}"
+  SECONDS=0
+}
 
 eval "$(/mnt/mambaforge/condabin/conda shell.bash hook)"
 source /mnt/mambaforge/etc/profile.d/conda.sh

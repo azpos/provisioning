@@ -2,8 +2,6 @@
 
 set -Eeuo pipefail
 
-source utils.sh
-
 mdadm --create --verbose /dev/md0  --level=0 --metadata=1.2 --name=NVME_RAID --raid-devices=2 /dev/nvme0n1 /dev/nvme1n1
 mkfs.ext4 -L RAID0 /dev/md0
 mkdir -p /scratch
