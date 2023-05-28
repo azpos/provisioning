@@ -89,3 +89,10 @@ az vmss identity assign \
   --resource-group "${RESOURCE_GROUP}" \
   --name "${vmss_name}" \
   --output yamlc
+
+az vmss identity assign \
+  --role 'Storage Blob Data Contributor' \
+  --scope /subscriptions/"${AZURE_SUBSCRIPTION_ID}"/resourceGroups/"${ARCHIVE_RG}"/providers/Microsoft.Storage/storageAccounts/"${STORAGE_ACCOUNT}" \
+  --resource-group "${RESOURCE_GROUP}" \
+  --name "${vmss_name}" \
+  --output yamlc

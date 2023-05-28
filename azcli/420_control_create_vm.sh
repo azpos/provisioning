@@ -82,3 +82,10 @@ az vm identity assign \
  --resource-group "${RESOURCE_GROUP}" \
  --name "${CONTROL_VM_NAME}" \
  --output yamlc
+
+az vm identity assign \
+  --role 'Storage Blob Data Contributor' \
+  --scope /subscriptions/"${AZURE_SUBSCRIPTION_ID}"/resourceGroups/"${ARCHIVE_RG}"/providers/Microsoft.Storage/storageAccounts/"${STORAGE_ACCOUNT}" \
+  --resource-group "${RESOURCE_GROUP}" \
+  --name "${CONTROL_VM_NAME}" \
+  --output yamlc

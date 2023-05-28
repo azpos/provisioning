@@ -7,9 +7,6 @@ source ./200_archive_variables.sh
 
 set -x
 
-STORAGE_ACCOUNT="${PROJECT}${ENVIRONMENT}${ARCHIVE}sa"
-SEAREPORT_CONTAINER="seareport"
-
 : " ----> Creating storage_account: ${RESOURCE_GROUP}"
 # Add a storage account reference to the Batch account for use as 'auto-storage'
 # for applications. Start by creating the storage account.

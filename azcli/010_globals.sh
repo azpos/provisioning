@@ -56,3 +56,6 @@ export SSH_COMPUTE_PUBLIC="${SSH_COMPUTE}".pub
 export MYIP=$(curl -s --fail http://whatismyip.akamai.com/)
 
 export CONTROL_VM_NAME="${CONTROL_PREFIX}"-vm
+
+export STORAGE_ACCOUNT="${PROJECT}${ENVIRONMENT}${ARCHIVE}sa"
+export SEAREPORT_CONTAINER="seareport"
