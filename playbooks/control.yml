@@ -20,7 +20,7 @@
 
     - name: "git clone provisioning "
       ansible.builtin.git:
-        repo: "https://foosball.example.org/path/to/repo.git"
+        repo: "https://github.com/pmav99/provisioning.git"
         dest: "/home/azuser/provisioning"
 
     - name: "Send notification"
