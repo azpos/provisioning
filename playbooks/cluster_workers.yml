@@ -1,6 +1,6 @@
 ---
 - name: "Setup Worker VM"
-  hosts: "workers"
+  hosts: "all"
   gather_facts: false
 
   tasks:
@@ -15,6 +15,13 @@
         install_recommends: false
         lock_timeout: 60
         cache_valid_time: 3600
+
+    - name: "Unmount NFS volume"
+      become: true
+      ansible.posix.mount:
+        src: "{{ hostvars[inventory_hostname]['groups']['master'][0] }}:/scratch/shared"
+        path: "/scratch/shared"
+        state: "unmounted"
 
     - name: "Create /scratch/shared"
       become: true
