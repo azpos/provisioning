@@ -52,24 +52,5 @@
       args:
         creates: "/home/azuser/.local/bin/poetry"
 
-    - name: "Create /scratch/shared"
-      become: true
-      ansible.builtin.file:
-        path: "/scratch/shared"
-        state: "directory"
-        mode: "0755"
-        owner: "azuser"
-        group: "azuser"
-
-    - name: "Mount NFS volume"
-      become: true
-      ignore_errors: true
-      ansible.posix.mount:
-        src: "{{ hostvars[inventory_hostname]['groups']['master'][0] }}:/scratch/shared"
-        path: "/scratch/shared"
-        opts: "rw,sync,hard"
-        state: "mounted"
-        fstype: "nfs"
-
     - name: "Send notification"
       ansible.builtin.command: "/home/azuser/.local/bin/ntfy send 'Provisioning of CONTROL finished: {{ now(utc=True) }}'"
