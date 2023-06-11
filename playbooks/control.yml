@@ -42,6 +42,14 @@
         clone: true
         update: true
 
+    - name: "Setup poetry (if necessary)"
+      become: false
+      ansible.builtin.shell: |
+        python3.9 -m pipx install poetry
+        python3.9 -m pipx inject poetry poetry-dynamic-versioning
+      args:
+        creates: "/home/azuser/.local/bin/poetry"
+
     - name: "Create /scratch/shared"
       become: true
       ansible.builtin.file:
