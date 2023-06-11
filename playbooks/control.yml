@@ -42,6 +42,13 @@
         clone: true
         update: true
 
+    - name: "git clone pyposeidon (if necessary)"
+      ansible.builtin.git:
+        repo: "http://github.com/ec-jrc/pyPoseidon"
+        dest: "/home/azuser/pyPoseidon"
+        clone: true
+        update: true
+
     - name: "Setup poetry (if necessary)"
       become: false
       ansible.builtin.shell: |
