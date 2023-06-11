@@ -1,6 +1,6 @@
 ---
 - name: "Setup Worker VM"
-  hosts: "all"
+  hosts: "control,workers"
   gather_facts: false
 
   tasks:
