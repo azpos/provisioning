@@ -16,11 +16,6 @@
         lock_timeout: 60
         cache_valid_time: 3600
 
-    - name: "Gather selected facts"
-      ansible.builtin.setup:
-        filter:
-          - 'ansible_date_time'
-
     - name: "Install azure-cli"
       become: true
       ansible.builtin.script: "setup_azure_cli.sh"
