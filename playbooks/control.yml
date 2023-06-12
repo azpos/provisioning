@@ -9,7 +9,6 @@
       become: true
       ansible.builtin.apt:
         pkg:
-          - "nfs-common"
         state: "present"
         update_cache: true
         install_recommends: false
@@ -51,6 +50,27 @@
         python3.9 -m pipx inject poetry poetry-dynamic-versioning
       args:
         creates: "/home/azuser/.local/bin/poetry"
+
+    - name: "Create pyposeidon_env"
+      ansible.builtin.shell: |
+        /usr/bin/bash -lic '
+        source init_conda
+        wget -O /tmp/binary.lock https://raw.githubusercontent.com/ec-jrc/pyPoseidon/master/locks/conda-ubuntu-latest-binary-p3.10.lock
+        micromamba create -n pyposeidon_env -f /tmp/binary.lock
+        micromamba activate pyposeidon_env
+        rm -rf /tmp/binary.lock
+        '
+      args:
+        creates: "/mnt/micromamba/envs/pyposeidon_env"
+
+    - name: "Install python depenencies in pyposeidon_env "
+      ansible.builtin.shell: |
+        /usr/bin/bash -lic '
+        source init_conda
+        micromamba activate pyposeidon_env
+        cd /home/azuser/pyPoseidon
+        poetry install
+        '
 
     - name: "Send notification"
       ansible.builtin.command: "/home/azuser/.local/bin/ntfy send 'Provisioning of CONTROL finished: {{ now(utc=True) }}'"
