@@ -48,10 +48,16 @@
         owner: "azuser"
         group: "azuser"
 
-    - name: "Setup conda (if necessary)"
-      ansible.builtin.script: "setup_conda.sh"
+    - name: "Ensure that MAMBA_ROOT_PREFIX points to /mnt/micromamba"
+      ansible.builtin.lineinfile:
+        path: "/home/azuser/.bashrc"
+        line: "export MAMBA_ROOT_PREFIX=/mnt/micromamba"
+
+    - name: "Setup mamba (if necessary)"
+      ansible.builtin.shell: |
+        curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj -C ~/.local/bin/ --strip-components=1 bin/micromamba
       args:
-        creates: "/mnt/mambaforge/condabin/mamba"
+        creates: "/home/azuser/.local/bin/micromamba"
 
     - name: "Setup pipx (if necessary)"
       ansible.builtin.script: "setup_pipx.sh"
