@@ -28,6 +28,14 @@
         creates: "/etc/netdata/netdata.conf"
 
     - name: "Install schism"
-      ansible.builtin.script: "setup_schism.sh"
+      vars:
+        env_name: "schism_env"
+      ansible.builtin.shell: |
+        /usr/bin/bash -lic '
+        source init_conda
+        micromamba create --yes --quiet --name {{ env_name }} "pschism=5.9*=mpi_openmpi*" ucx
+        micromamba activate {{ env_name }}
+        which schism
+        '
       args:
-        creates: "/mnt/mambaforge/envs/schism_env/bin/schism"
+        creates: "/mnt/micromamba/envs/{{ env_name }}"
