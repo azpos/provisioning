@@ -1,3 +1,10 @@
+from __future__ import annotations
+
+import pathlib
+
+ROOT_DIR = pathlib.Path(__file__).parent.parent
+PLAYBOOKS = ROOT_DIR / "playbooks"
+
 # from typing import Annotated
 #
 # import eliot

@@ -1,10 +1,12 @@
 from typing import Annotated
 from typing import NoReturn
 
+import eliot
 import rich
 import typer
 
 from ..cluster import cluster_scale
+from ..provisioning import provision_master
 
 
 cluster_app = typer.Typer(
@@ -22,6 +24,7 @@ SHOW_OUTPUT = typer.Option("--show-output", help="Show the output of the command
 
 
 @cluster_app.command()
+@eliot.log_call
 def create(
     show_traceback: Annotated[bool, SHOW_TRACEBACK] = False,
     show_output: Annotated[bool, SHOW_OUTPUT] = False,
@@ -29,12 +32,15 @@ def create(
     """
     Create the cluster.
 
-    Practically speaking, this means bringing up one HPC node and provisioning it as the master. """
+    Practically speaking, this means bringing up one HPC node and provisioning it as the master.
+    """
     cluster_scale(capacity=1, show_traceback=show_traceback, show_output=show_output)
+    provision_master(show_traceback=show_traceback, show_output=show_output)
     return 0
 
 
 @cluster_app.command()
+@eliot.log_call
 def destroy(
     show_traceback: Annotated[bool, SHOW_TRACEBACK] = False,
     show_output: Annotated[bool, SHOW_OUTPUT] = False,
@@ -47,6 +53,7 @@ def destroy(
 
 
 @cluster_app.command()
+@eliot.log_call
 def scale_workers(
     no_workers: Annotated[int, typer.Argument(min=0)],
     show_traceback: Annotated[bool, SHOW_TRACEBACK] = False,
