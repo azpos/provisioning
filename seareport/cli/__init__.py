@@ -6,7 +6,7 @@ import typer
 from .cluster_app import cluster_app
 from .data_app import data_app
 from .model_app import model_app
-from ..various import login
+from ..various import login as api_login
 from ..various import healthcheck as api_healthcheck
 
 
@@ -32,4 +32,13 @@ def login(
     # fmt: on
 ) -> int:
     """ Login to azure-cli and azcopy using system-managed-identity """
-    login(timeout=timeout)
+    api_login(timeout=timeout)
+
+
+@app.command()
+@eliot.log_call
+def healthcheck() -> int:
+    """
+    Check that all the necessary resources have been created
+    """
+    api_healthcheck()
