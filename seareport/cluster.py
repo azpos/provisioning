@@ -1,6 +1,10 @@
 from __future__ import annotations
 
-from eliot import log_call
+import shutil
+
+import eliot
+import rich
+import typer
 
 from .azcli import check_azcli_logged_in
 from .settings import check_settings
@@ -17,13 +21,21 @@ az vmss scale \\
 """.strip()
 
 
-@log_call
+@eliot.log_call
 def cluster_sanity_check() -> None:
     check_settings()
+    check_executables_are_available()
     check_azcli_logged_in()
 
 
-@log_call
+def check_executables_are_available():
+    for exec in ["az", "azcopy", "ansible-playbook"]:
+        if not shutil.which(exec):
+            rich.print(f"Executable [bold green]{exec}[/bold green] cannot be found in [bold]$PATH[/bold]. Please install it and try again.")
+            raise typer.Abort()
+
+
+@eliot.log_call
 def cluster_scale(capacity: int, show_traceback: bool, show_output: bool) -> None:
     cluster_sanity_check()
     settings = Settings()

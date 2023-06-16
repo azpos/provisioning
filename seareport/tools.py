@@ -62,11 +62,10 @@ def run_cli(cmd: str, show_traceback: bool, show_output: bool, **kwargs) -> subp
             else:
                 raise typer.Abort() from exc
     else:
+        rich.print("\n[italic bold green]Finished successfully!")
         if show_output:
-            rich.print("\n[italic bold green]Finished successfully:\n")
+            print()
             rich.print(f"[light grey]{proc.stdout}")
-        else:
-            rich.print("\n[italic bold green]Finished successfully!")
 
     return proc
 

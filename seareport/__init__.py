@@ -1,12 +1,9 @@
-import enum
-import datetime
-import inspect
-import os
-import pathlib
-import sys
+import subprocess
 
 from typing import Annotated
 
+import eliot
+import rich
 import typer
 
 import pyposeidon.model as pmodel
@@ -14,6 +11,8 @@ import pyposeidon.model as pmodel
 from .cli.cluster_app import cluster_app
 from .cli.data_app import data_app
 from .cli.model_app import model_app
+from .tools import run
+
 
 BDAP_BASE_URL = "https://jeodpp.jrc.ec.europa.eu/ftp/private/{bdap_username}/{bdap_password}/output-ftp/ECMWF/Operational/HRES/LATEST/Data/GRIB/"
 
@@ -29,34 +28,24 @@ app.add_typer(data_app, name="data")
 app.add_typer(model_app, name="model")
 
 
-# _MANDATORY_ENV_VARIABLES = {
-#     "download": (
-#         "GRIB_USERNAME",
-#     ),
-# }
-#
-# def sanity_check() -> None:
-#     caller_function_name  = inspect.stack()[1][3]
-#     missing = []
-#     for name in _MANDATORY_ENV_VARIABLES[caller_function_name]:
-#         env_name = f"SEAREPORT_{name}"
-#         env_value = os.environ.get(env_name)
-#         if not env_value:
-#             missing.append(env_name)
-#     if missing:
-#         msg = f"The following ENV variables are required. Please define them and run again:\n{missing}"
-#         sys.exit(msg)
-
-
-
-# @app.command(no_args_is_help=True)
-# def main(
-#     # fmt: off
-#     base_model: Annotated[pathlib.Path, typer.Argument(help="The path to the base model. If it is a URL the model will be downloaded.")],
-#     meteo: Annotated[pathlib.Path, typer.Argument(help="The path to the input Meteo file. If it is a URL it will be downloaded")],
-#     # fmt: on
-# ) -> int:
-#     print(str(base_model))
-#     print(str(meteo))
-#     return 0
-
+@app.command()
+@eliot.log_call
+def login(
+    # fmt: off
+    timeout: Annotated[int, typer.Option(help="The timeout countdown. If it expires, you probably haven't setup the managed identity correctly.")] = 5,
+    # fmt: on
+) -> int:
+    """ Login to azure-cli and azcopy using system-managed-identity """
+    cmds = [
+        "az login --identity",
+        "azcopy login --identity"
+    ]
+    for cmd in cmds:
+        try:
+            run(cmd=cmd, check=False, timeout=timeout)
+        except subprocess.TimeoutExpired as exc:
+            rich.print(f"[yellow]{cmd}[/yellow]: [bold red]Fail...")
+            rich.print("The command [italic]timed out[/italic]. This probably means that you need haven't setup the managed identity correctly.")
+            raise typer.Abort() from exc
+        else:
+            rich.print(f"[yellow]{cmd}[yellow]: [bold green]Success!")
