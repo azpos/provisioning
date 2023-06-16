@@ -1,0 +1,65 @@
+[tool.poetry]
+name = "seareport"
+version = "0.1.0"
+description = ""
+authors = ["Panos Mavrogiorgos <pmav99@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.scripts]
+seareport = "seareport:app"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+ansible = {version = "^7.6.0", extras = ["azure"]}
+typer = {version = ">=0.9.0", extras = ["all"]}
+pyposeidon = {git = "https://github.com/ec-jrc/pyPoseidon.git"}
+eliot = "*"
+eliot-tree = "*"
+pydantic = {version = ">1", allow-prereleases = true}
+pydantic-settings = {git = "https://github.com/pydantic/pydantic-settings.git"}
+# pydantic-settings = {version = "*", allow-prereleases = true}
+
+[tool.poetry.group.dev.dependencies]
+mypy = "*"
+ruff = "*"
+ipykernel = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
+
+[tool.black]
+line-length = 120
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra --verbose --showlocals --tb=short"
+testpaths = ["tests"]
+log_cli = true
+filterwarnings = [
+    # 'ignore:distutils Version classes are deprecated. Use packaging.version instead:DeprecationWarning',
+]
+
+
+[tool.mypy]
+python_version = "3.9"
+show_error_codes = true
+show_column_numbers = true
+show_error_context = true
+warn_no_return = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_ignores = true
+strict = true
+ignore_missing_imports = true
+
+disable_error_code = []
+
+# mypy per-module options:
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = true
