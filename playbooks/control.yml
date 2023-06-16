@@ -51,24 +51,24 @@
       args:
         creates: "/home/azuser/.local/bin/poetry"
 
-    - name: "Create pyposeidon_env"
+    - name: "Create seareport_env"
       ansible.builtin.shell: |
         /usr/bin/bash -lic '
         source init_conda
         wget -O /tmp/binary.lock https://raw.githubusercontent.com/ec-jrc/pyPoseidon/master/locks/conda-ubuntu-latest-binary-p3.10.lock
-        micromamba create -n pyposeidon_env -f /tmp/binary.lock
-        micromamba activate pyposeidon_env
+        micromamba create -n seareport_env -f /tmp/binary.lock
+        micromamba activate seareport_env
         rm -rf /tmp/binary.lock
         '
       args:
-        creates: "/mnt/micromamba/envs/pyposeidon_env"
+        creates: "/mnt/micromamba/envs/seareport_env"
 
-    - name: "Install python depenencies in pyposeidon_env "
+    - name: "Install python dependencies in seareport_env "
       ansible.builtin.shell: |
         /usr/bin/bash -lic '
         source init_conda
-        micromamba activate pyposeidon_env
-        cd /home/azuser/pyPoseidon
+        micromamba activate seareport_env
+        cd /home/azuser/provisioning
         poetry install
         '
 
