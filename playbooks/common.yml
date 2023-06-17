@@ -84,5 +84,16 @@
       args:
         creates: "/home/azuser/.local/bin/ntfy"
 
+    - name: "Download azcopy"
+      become: true
+      ansible.builtin.shell: |
+        wget -O azcopy_v10.tar.gz https://aka.ms/downloadazcopy-v10-linux && tar -xf azcopy_v10.tar.gz --strip-components=1
+        mv azcopy /usr/bin/
+        chown root:root /usr/bin/azcopy
+        chmod 755 /usr/bin/azcopy
+        rm -rf azcopy_v10.tar.gz
+      args:
+        creates: "/usr/bin/azcopy"
+
     - name: "Login to azcopy"
       ansible.builtin.command: "azcopy login --identity"
