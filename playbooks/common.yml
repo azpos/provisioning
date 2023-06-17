@@ -49,6 +49,16 @@
         owner: "azuser"
         group: "azuser"
 
+    - name: "Use /mnt/pip_cache as the cache for pip"
+      ansible.builtin.shell: |
+        mkdir -p /mnt/cache/pip;
+        mkdir -p /home/azuser/.config/pip;
+        touch    /home/azuser/.config/pip/pip.conf;
+        echo '[global]' >> /home/azuser/.config/pip/pip.conf;
+        echo 'cache-dir=/mnt/cache/pip' >> /home/azuser/.config/pip/pip.conf;
+      args:
+        creates: "/home/azuser/.config/pip/pip.conf"
+
     - name: "Ensure that MAMBA_ROOT_PREFIX points to /mnt/micromamba"
       ansible.builtin.lineinfile:
         path: "/home/azuser/.bashrc"

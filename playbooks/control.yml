@@ -46,8 +46,12 @@
     - name: "Setup poetry (if necessary)"
       become: false
       ansible.builtin.shell: |
-        python3.10 -m pipx install poetry
-        python3.10 -m pipx inject poetry poetry-dynamic-versioning
+        /usr/bin/bash -lic '
+          python3.10 -m pipx install poetry
+          python3.10 -m pipx inject poetry poetry-dynamic-versioning
+          mkdir -p /mnt/cache/poetry/
+          poetry config cache-dir /mnt/cache/poetry/
+        '
       args:
         creates: "/home/azuser/.local/bin/poetry"
 
