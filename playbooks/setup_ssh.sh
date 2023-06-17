@@ -4,6 +4,8 @@ set -Eeuo pipefail
 
 source utils.sh
 
+set -x
+
 token_url='http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https%3A%2F%2Fvault.azure.net'
 secret_url='https://ppw-dev-kv.vault.azure.net/secrets/ppw-dev-infra-compute-ssh-key?api-version=2016-10-01'
 
