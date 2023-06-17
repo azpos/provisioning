@@ -36,15 +36,6 @@
       args:
         creates: "/home/azuser/.dotfiles"
 
-    - name: "Setup SSH (if necessary)"
-      register: "result"
-      retries: 10
-      delay: 2
-      until: result is not failed
-      ansible.builtin.script: "setup_ssh.sh"
-      args:
-        creates: "/home/azuser/.ssh/id_rsa"
-
     - name: "Setup /mnt"
       become: true
       ansible.builtin.file:
@@ -97,3 +88,12 @@
 
     - name: "Login to azcopy"
       ansible.builtin.command: "azcopy login --identity"
+
+    - name: "Setup SSH (if necessary)"
+      register: "result"
+      retries: 20
+      delay: 5
+      until: result is not failed
+      ansible.builtin.script: "setup_ssh.sh"
+      args:
+        creates: "/home/azuser/.ssh/id_rsa"
