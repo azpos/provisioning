@@ -11,8 +11,10 @@
         pkg:
           - "aria2"
           - "bat"
+          - "bzip2"
           - "curl"
           - "fd-find"
+          - "jq"
           - "kitty-terminfo"
           - "moreutils"
           - "python3.10"
