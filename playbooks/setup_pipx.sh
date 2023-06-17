@@ -11,7 +11,7 @@ log "START of: PIPX setup"
 echo $PATH
 
 if [ ! -x "$(command -v pipx)" ]; then
-  python3.9 -m pip install --no-warn-script-location --user pipx
+  python3.10 -m pip install --no-warn-script-location --user pipx
 fi
 
 log "END of: PIPX setup"

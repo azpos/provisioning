@@ -8,7 +8,7 @@ source ~/.bashrc
 
 log "START of: pipx install ntfy"
 
-python3.9 -m pipx install 'git+https://github.com/pmav99/ntfy.git'
+python3.10 -m pipx install 'git+https://github.com/pmav99/ntfy.git'
 
 mkdir -p ~/.config/ntfy
 
