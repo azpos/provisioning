@@ -19,12 +19,13 @@
           - "python3.10-venv"
           - "silversearcher-ag"
           - "stow"
+          - "tar"
           - "tree"
           - "wget"
         state: "present"
         update_cache: true
         install_recommends: false
-        lock_timeout: 60
+        lock_timeout: 300
         cache_valid_time: 3600
 
     - name: "Setup dotfiles (if necessary)"
