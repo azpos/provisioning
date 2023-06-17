@@ -19,6 +19,7 @@
           - "moreutils"
           - "python3.10"
           - "python3.10-venv"
+          - "python3-pip"
           - "silversearcher-ag"
           - "stow"
           - "tar"
