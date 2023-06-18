@@ -65,7 +65,12 @@
         creates: "/home/azuser/.local/bin/micromamba"
 
     - name: "Setup pipx (if necessary)"
-      ansible.builtin.script: "setup_pipx.sh"
+      ansible.builtin.shell: |
+        /usr/bin/bash -lic '
+          if [ ! -x "$(command -v pipx)" ]; then
+            python3.10 -m pip install --no-warn-script-location --user pipx
+          fi
+        '
       args:
         creates: "/home/azuser/.local/bin/pipx"
 
