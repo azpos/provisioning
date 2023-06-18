@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import subprocess
 
 from . import PLAYBOOKS
@@ -21,8 +22,11 @@ def exec_playbooks(playbooks: list[str]) -> None:
     for playbook in playbooks:
         cmd = f"ansible-playbook -i hosts.yml {playbook}"
         print(cmd)
+        env = os.environ.copy()
+        env["ANSIBLE_CALLBACKS_ENABLED"]="ansible.posix.profile_tasks"
+        env["PYTHONUNBUFFERED"] = "1"
         try:
-            proc = run(cmd, cwd=PLAYBOOKS, check=False)
+            proc = run(cmd, cwd=PLAYBOOKS, check=False, env=env)
             proc.check_returncode()
         except subprocess.CalledProcessError:
             print()
