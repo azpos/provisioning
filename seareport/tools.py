@@ -179,6 +179,13 @@ def get_grib_filename_from_timestamp(ts: pd.Timestamp) -> str:
     return filename
 
 
+@log_call
+def get_blob_url_from_timestamp(container: str, ts: pd.Timestamp) -> str:
+    filename = get_grib_filename_from_timestamp(ts=ts)
+    url = f"{container}/{ts.strftime('%Y%m')}/{filename}"
+    return url
+
+
 @log_call()
 def retrieve_grib(url: str, destination: pathlib.Path, auth: tuple[str, str] | None) -> None:
     """

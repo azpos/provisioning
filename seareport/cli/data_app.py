@@ -131,6 +131,23 @@ def from_ecmwf(
 
 
 @data_app.command()
+@log_call
+def from_blob(
+    # fmt: off
+    timestamp: Annotated[datetime.datetime, typer.Argument(help="The timestamp for which we want to download the GRIB file from Blob.")],
+    destination: Annotated[pathlib.Path, ExistingDir] = pathlib.Path("./"),
+    container: Annotated[str, typer.Option(help="The url of the container that contains the grib file.")] = "https://ppwdevarchivecoolsa.blob.core.windows.net/ecmwf/"
+    # fmt: on
+) -> int:
+    """
+    Download GRIB file from Blob and store it to ``destination``.
+    """
+    url = tools.get_blob_url_from_timestamp(container=container, ts=timestamp)
+    cmd = f"azcopy copy {url} {str(destination)}"
+    tools.run_cli(cmd, show_traceback=True, show_output=True)
+
+
+@data_app.command()
 def store(
     path: Annotated[pathlib.Path, typer.Argument(help="The path to the GRIB file.")],
 ) -> int:
