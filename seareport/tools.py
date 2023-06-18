@@ -20,6 +20,7 @@ from eliot import current_action
 from eliot import log_message
 from eliot import log_call
 
+from . import PLAYBOOKS
 
 logger = logging.getLogger(__name__)
 
@@ -199,3 +200,8 @@ def retrieve_grib(url: str, destination: pathlib.Path, auth: tuple[str, str] | N
     move(src=tmp_path, dst=destination / filename)
 
 
+@log_call
+def create_hosts_file():
+    cmd = "jaz templates/hosts.yml"
+    proc = run(cmd, cwd=PLAYBOOKS, check=True)
+    (PLAYBOOKS / "hosts.yml").write_text(proc.stdout)
