@@ -18,9 +18,9 @@ def create_hosts_file():
 
 
 @eliot.log_call
-def exec_playbooks(playbooks: list[str]) -> None:
+def exec_playbooks(playbooks: list[str], group: str) -> None:
     for playbook in playbooks:
-        cmd = f"ansible-playbook -i hosts.yml {playbook}"
+        cmd = f"ansible-playbook -i hosts.yml -l {group} {playbook}"
         print(cmd)
         env = os.environ.copy()
         env["ANSIBLE_CALLBACKS_ENABLED"]="ansible.posix.profile_tasks"
@@ -41,17 +41,17 @@ def exec_playbooks(playbooks: list[str]) -> None:
 
 @eliot.log_call
 def mount_nfs_on_control():
-    exec_playbooks(playbooks=["mount_nfs.yml"])
+    exec_playbooks(playbooks=["mount_nfs.yml"], group="control")
 
 
 @eliot.log_call
 def setup_control():
-    exec_playbooks(playbooks=["common.yml", "control.yml"])
+    exec_playbooks(playbooks=["common.yml", "control.yml"], group="control")
 
 
 @eliot.log_call
 def setup_master():
-    exec_playbooks(playbooks=["common.yml", "cluster_common.yml", "cluster_master.yml"])
+    exec_playbooks(playbooks=["common.yml", "cluster_common.yml", "cluster_master.yml"], group="master")
 
 
 @eliot.log_call
