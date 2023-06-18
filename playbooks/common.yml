@@ -75,8 +75,16 @@
         creates: "/home/azuser/.local/bin/pipx"
 
     - name: "Setup ntfy (if necessary)"
-      ansible.builtin.script: "setup_ntfy.sh"
-      ignore_errors: true
+      ansible.builtin.shell: |
+        /usr/bin/bash -lic "
+          python3.10 -m pipx install 'git+https://github.com/pmav99/ntfy.git'
+          mkdir -p ~/.config/ntfy;
+          touch ~/.config/ntfy/ntfy.yml
+          echo 'backends:'  >> ~/.config/ntfy/ntfy.yml
+          echo '  - \"teams\"' >> ~/.config/ntfy/ntfy.yml
+          echo 'teams:' >> ~/.config/ntfy/ntfy.yml
+          echo '  webhook_url: \"https://eceuropaeu.webhook.office.com/webhookb2/c30cb985-f82c-4d12-b57b-63e848c7917c@b24c8b06-522c-46fe-9080-70926f8dddb1/IncomingWebhook/f36b00fe4b374316b9405e25980ae4a4/0eb06807-09cd-4dfc-917b-ccc7ef0fe999\"' >> ~/.config/ntfy/ntfy.yml
+        "
       args:
         creates: "/home/azuser/.local/bin/ntfy"
 
