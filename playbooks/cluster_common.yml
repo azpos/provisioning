@@ -8,6 +8,10 @@
 
   tasks:
 
+    - name: "Wait for cloud-init to finish"
+      become: false
+      ansible.builtin.shell: "cloud-init status --wait"
+
     - name: "Add `azuser` to `rdma` group"
       become: true
       ansible.builtin.user:
