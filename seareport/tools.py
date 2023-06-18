@@ -175,7 +175,7 @@ def get_first_timestamp(grib: pathlib.Path) -> pd.Timestamp:
 
 @log_call
 def get_grib_filename_from_timestamp(ts: pd.Timestamp) -> str:
-    filename = ts.strftime("uvp_%Y%m%d%H.grib")
+    filename = ts.strftime("%Y%m%d.%H.uvp_72.grib")
     return filename
 
 
