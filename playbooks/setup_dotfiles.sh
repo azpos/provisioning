@@ -2,8 +2,6 @@
 
 set -Eeuo pipefail
 
-source utils.sh
-
 if [[ -f ~/.bashrc ]]; then
   cp ~/.bashrc ~/.bashrc.orig
   rm -rf ~/.bashrc
