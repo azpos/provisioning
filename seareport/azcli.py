@@ -10,7 +10,6 @@ from .tools import run
 from .settings import Settings
 
 
-
 def check_azcli_logged_in() -> None:
     cmd = "az account show"
     try:

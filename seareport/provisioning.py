@@ -16,7 +16,7 @@ def exec_playbook(playbook: str, group: str) -> None:
     cmd = f"ansible-playbook -i hosts.yml -l {group} {playbook}"
     print(cmd)
     env = os.environ.copy()
-    env["ANSIBLE_CALLBACKS_ENABLED"]="ansible.posix.profile_tasks"
+    env["ANSIBLE_CALLBACKS_ENABLED"] = "ansible.posix.profile_tasks"
     env["PYTHONUNBUFFERED"] = "1"
     try:
         proc = run(cmd, cwd=PLAYBOOKS, check=False, env=env)

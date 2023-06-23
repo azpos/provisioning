@@ -5,29 +5,27 @@ import eliot
 import rich
 import typer
 
+from .. import PLAYBOOKS
 from ..cluster import cluster_scale
 from ..provisioning import provision_master
+from .tools import SHOW_OUTPUT_OPTION
+from .tools import SHOW_TRACEBACK_OPTION
 
 
 cluster_app = typer.Typer(
     add_completion=False,
     add_help_option=True,
     no_args_is_help=True,
+    rich_markup_mode="rich",
     help="Create/destroy/scale the cluster.",
 )
-
-
-
-SHOW_TRACEBACK = typer.Option("--show-traceback", help="In case of errors, show the full python traceback")
-SHOW_OUTPUT = typer.Option("--show-output", help="Show the output of the command")
-
 
 
 @cluster_app.command()
 @eliot.log_call
 def create(
-    show_traceback: Annotated[bool, SHOW_TRACEBACK] = False,
-    show_output: Annotated[bool, SHOW_OUTPUT] = False,
+    show_traceback: Annotated[bool, SHOW_TRACEBACK_OPTION] = False,
+    show_output: Annotated[bool, SHOW_OUTPUT_OPTION] = False,
 ) -> int:
     """
     Create the cluster.
@@ -42,9 +40,9 @@ def create(
 @cluster_app.command()
 @eliot.log_call
 def destroy(
-    show_traceback: Annotated[bool, SHOW_TRACEBACK] = False,
-    show_output: Annotated[bool, SHOW_OUTPUT] = False,
-    ) -> int:
+    show_traceback: Annotated[bool, SHOW_TRACEBACK_OPTION] = False,
+    show_output: Annotated[bool, SHOW_OUTPUT_OPTION] = False,
+) -> int:
     """
     Destroy the cluster.
     """
@@ -56,8 +54,8 @@ def destroy(
 @eliot.log_call
 def scale_workers(
     no_workers: Annotated[int, typer.Argument(min=0)],
-    show_traceback: Annotated[bool, SHOW_TRACEBACK] = False,
-    show_output: Annotated[bool, SHOW_OUTPUT] = False,
+    show_traceback: Annotated[bool, SHOW_TRACEBACK_OPTION] = False,
+    show_output: Annotated[bool, SHOW_OUTPUT_OPTION] = False,
 ) -> NoReturn:
     """
     Scale the cluster's workers up or down.

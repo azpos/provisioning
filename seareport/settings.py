@@ -6,8 +6,7 @@ import typer
 
 
 class Settings(pydantic_settings.BaseSettings):
-
-    model_config = pydantic_settings.SettingsConfigDict(env_prefix='SEAREPORT_')
+    model_config = pydantic_settings.SettingsConfigDict(env_prefix="SEAREPORT_")
 
     location: str = "westeurope"
     project: str

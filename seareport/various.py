@@ -10,16 +10,15 @@ from .tools import run
 
 
 def login(timeout: int) -> None:
-    cmds = [
-        "az login --identity",
-        "azcopy login --identity"
-    ]
+    cmds = ["az login --identity", "azcopy login --identity"]
     for cmd in cmds:
         try:
             run(cmd=cmd, check=False, timeout=timeout)
         except subprocess.TimeoutExpired as exc:
             rich.print(f"[yellow]{cmd}[/yellow]: [bold red]Fail...")
-            rich.print("The command [italic]timed out[/italic]. This probably means that you need haven't setup the managed identity correctly.")
+            rich.print(
+                "The command [italic]timed out[/italic]. This probably means that you need haven't setup the managed identity correctly."
+            )
             raise typer.Abort() from exc
         else:
             rich.print(f"[yellow]{cmd}[yellow]: [bold green]Success!")

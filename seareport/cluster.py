@@ -31,7 +31,9 @@ def cluster_sanity_check() -> None:
 def check_executables_are_available():
     for exec in ["az", "azcopy", "ansible-playbook"]:
         if not shutil.which(exec):
-            rich.print(f"Executable [bold green]{exec}[/bold green] cannot be found in [bold]$PATH[/bold]. Please install it and try again.")
+            rich.print(
+                f"Executable [bold green]{exec}[/bold green] cannot be found in [bold]$PATH[/bold]. Please install it and try again."
+            )
             raise typer.Abort()
 
 
@@ -41,4 +43,3 @@ def cluster_scale(capacity: int, show_traceback: bool, show_output: bool) -> Non
     settings = Settings()
     cmd = SCALE_CMD.format(settings=settings, capacity=capacity)
     run_cli(cmd=cmd, show_traceback=show_traceback, show_output=show_output)
-

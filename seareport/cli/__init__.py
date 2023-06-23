@@ -17,6 +17,7 @@ app = typer.Typer(
     add_help_option=True,
     no_args_is_help=True,
     pretty_exceptions_enable=False,
+    rich_markup_mode="rich",
     help=f"Seareport: A global model",
 )
 app.add_typer(cluster_app, name="cluster")
@@ -31,7 +32,7 @@ def login(
     timeout: Annotated[int, typer.Option(help="The timeout countdown. If it expires, you probably haven't setup the managed identity correctly.")] = 5,
     # fmt: on
 ) -> int:
-    """ Login to azure-cli and azcopy using system-managed-identity """
+    """Login to [blue]azure-cli[/blue] and [blue]azcopy[/blue] using [italic]system-managed-identity[/italic]."""
     api_login(timeout=timeout)
 
 

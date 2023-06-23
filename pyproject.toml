@@ -18,6 +18,8 @@ eliot-tree = "*"
 pydantic = {version = ">1", allow-prereleases = true}
 pydantic-settings = {git = "https://github.com/pydantic/pydantic-settings.git"}
 # pydantic-settings = {version = "*", allow-prereleases = true}
+natsort = "*"
+strenum = "*"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "*"
