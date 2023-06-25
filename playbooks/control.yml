@@ -13,6 +13,7 @@
           - "libxcursor1"
           - "libxft-dev"
           - "libxinerama1"
+          - "libeccodes-dev"
         state: "present"
         update_cache: true
         install_recommends: false
@@ -58,6 +59,15 @@
         '
       args:
         creates: "/home/azuser/.local/bin/poetry"
+
+    - name: "Setup inspectds (if necessary)"
+      become: false
+      ansible.builtin.shell: |
+        /usr/bin/bash -lic '
+          python3.10 -m pipx install "inspectds[grib]"
+        '
+      args:
+        creates: "/home/azuser/.local/bin/inspectds"
 
     - name: "Create seareport_env"
       ansible.builtin.shell: |
