@@ -32,8 +32,8 @@ data_app = typer.Typer(
 
 class SeareportModel(strenum.StrEnum):
     iceland = enum.auto()
-    global_v1 = enum.auto()
-    global_v2 = enum.auto()
+    global_v1 = "global-v1"
+    global_v2 = "global-v2"
 
 
 def _retrieve_ecmwf_credentials_from_env() -> tuple[str, str]:
