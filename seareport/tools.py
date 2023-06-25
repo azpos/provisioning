@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import contextlib
+import datetime
 import ftplib
 import logging
 import pathlib
@@ -23,12 +24,16 @@ from . import PLAYBOOKS
 logger = logging.getLogger(__name__)
 
 
+def now():
+    return datetime.datetime.utcnow().isoformat()
+
+
 @contextlib.contextmanager
 def cli_log(pre: str, post: str = ""):
-    rich.print(f"\n[italic yellow]{pre}")
+    rich.print(f"\n{now()} [italic yellow]{pre}")
     yield
     if post:
-        rich.print(f"\n[italic bold green]{post}")
+        rich.print(f"\n{now()} [italic bold green]{post}")
 
 
 def move(src: pathlib.Path, dst: pathlib.Path) -> None:
@@ -49,11 +54,11 @@ def run(cmd: str, verbose: bool = False, check: bool = True, **kwargs) -> subpro
 def run_cli(
     cmd: str, show_traceback: bool, show_output: bool, msg: str = "Executing:", **kwargs
 ) -> subprocess.CompletedProcess:
-    rich.print(f"\n[italic yellow]{msg}\n")
+    rich.print(f"\n{now()} [italic yellow]{msg}\n")
     rich.print(f"[bold]{cmd}[bold]")
     proc = subprocess.run(cmd, check=False, capture_output=True, text=True, shell=True, **kwargs)
     if proc.returncode:
-        rich.print("\n[italic bold red]Something went wrong:\n")
+        rich.print(f"\n{now()} [italic bold red]Something went wrong:\n")
         rich.print(f"[bold]{proc.stderr}[bold]")
         try:
             proc.check_returncode()
@@ -66,7 +71,7 @@ def run_cli(
             else:
                 raise typer.Abort() from exc
     else:
-        rich.print("\n[italic bold green]Finished successfully!")
+        rich.print(f"\n{now()} [italic bold green]Finished successfully!")
         if show_output:
             print()
             rich.print(f"[light grey]{proc.stdout}")
