@@ -9,6 +9,10 @@
       become: true
       ansible.builtin.apt:
         pkg:
+          - "libgl1"
+          - "libxcursor1"
+          - "libxft-dev"
+          - "libxinerama1"
         state: "present"
         update_cache: true
         install_recommends: false
