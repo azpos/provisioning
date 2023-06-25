@@ -1,5 +1,5 @@
 ---
-- name: "Setup Worker VM"
+- name: "Unmount NFS"
   hosts: "control,workers"
   gather_facts: false
 
