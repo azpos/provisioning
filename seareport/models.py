@@ -60,6 +60,8 @@ def gen_initial(
     model.output()  # save to files
     model.save()  # saves the json model reference file
     model.set_obs()  # setup station points
+    # Explicitly copy the launchSchism.sh from the base_model
+    shutil.copy2(base_model / "launchSchism.sh", model.rpath)
     return model
 
 
