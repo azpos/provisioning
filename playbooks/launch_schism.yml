@@ -1,0 +1,11 @@
+---
+- name: "Launch Schism"
+  hosts: "master"
+  gather_facts: false
+
+  tasks:
+
+    - name: "launch schism"
+      ansible.builtin.command: "/scratch/shared/rpath/launchSchism.sh"
+      async: "{{ timeout | int }}"
+      poll: 10

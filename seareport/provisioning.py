@@ -9,9 +9,13 @@ import eliot
 
 
 @eliot.log_call
-def exec_playbook(playbook: str, group: str) -> None:
+def exec_playbook(playbook: str, group: str, **kwargs) -> None:
+    if kwargs:
+        extra_vars=" ".join(f"{key}={value}" for key, value in kwargs.items())
+    else:
+        extra_vars = ""
     tools.create_hosts_file()
-    cmd = f"ansible-playbook -i hosts.yml -l {group} {playbook}"
+    cmd = f"""ansible-playbook -i hosts.yml -l {group} --extra-vars "{extra_vars}" {playbook}"""
     env = os.environ.copy()
     env["ANSIBLE_CALLBACKS_ENABLED"] = "ansible.posix.profile_tasks"
     env["PYTHONUNBUFFERED"] = "1"
@@ -19,9 +23,9 @@ def exec_playbook(playbook: str, group: str) -> None:
 
 
 @eliot.log_call
-def exec_playbooks(playbooks: list[str], group: str) -> None:
+def exec_playbooks(playbooks: list[str], group: str, **kwargs) -> None:
     for playbook in playbooks:
-        exec_playbook(playbook=playbook, group=group)
+        exec_playbook(playbook=playbook, group=group, **kwargs)
 
 
 @eliot.log_call
@@ -42,6 +46,11 @@ def setup_control():
 @eliot.log_call
 def setup_master():
     exec_playbooks(playbooks=["common.yml", "cluster_common.yml", "cluster_master.yml"], group="master")
+
+
+@eliot.log_call
+def launch_schism(timeout: int):
+    exec_playbooks(playbooks=["launch_schism.yml"], group="master", timeout=timeout)
 
 
 @eliot.log_call
