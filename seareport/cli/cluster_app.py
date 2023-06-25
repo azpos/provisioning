@@ -7,7 +7,7 @@ import typer
 
 from .. import PLAYBOOKS
 from ..cluster import cluster_scale
-from ..provisioning import provision_master
+from .. import provisioning
 from .tools import SHOW_OUTPUT_OPTION
 from .tools import SHOW_TRACEBACK_OPTION
 
@@ -33,7 +33,9 @@ def create(
     Practically speaking, this means bringing up one HPC node and provisioning it as the master.
     """
     cluster_scale(capacity=1, show_traceback=show_traceback, show_output=show_output)
-    provision_master(show_traceback=show_traceback, show_output=show_output)
+    provisioning.unmount_nfs_on_control()
+    provisioning.setup_master()
+    provisioning.mount_nfs_on_control()
     return 0
 
 
@@ -46,6 +48,7 @@ def destroy(
     """
     Destroy the cluster.
     """
+    provisioning.unmount_nfs_on_control()
     cluster_scale(capacity=0, show_traceback=show_traceback, show_output=show_output)
     return 0
 

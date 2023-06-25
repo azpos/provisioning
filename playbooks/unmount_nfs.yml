@@ -1,0 +1,15 @@
+---
+- name: "Setup Worker VM"
+  hosts: "control,workers"
+  gather_facts: false
+
+  tasks:
+
+    - name: "Unmount NFS volume"
+      become: true
+      ansible.posix.mount:
+        path: "/scratch/shared"
+        state: "unmounted"
+
+    - name: "Sent notification"
+      ansible.builtin.command: "/home/azuser/.local/bin/ntfy send 'Unmounting of NFS finished: {{ now(utc=True) }}'"

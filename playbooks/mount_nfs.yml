@@ -37,7 +37,7 @@
         src: "{{ hostvars[inventory_hostname]['groups']['master'][0] }}:/scratch/shared"
         path: "/scratch/shared"
         opts: "rw,sync,hard"
-        state: "mounted"
+        state: "ephemeral"
         fstype: "nfs"
 
     - name: "Sent notification"
