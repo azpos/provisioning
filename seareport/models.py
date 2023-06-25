@@ -194,10 +194,18 @@ def post_process(model_rpath: pathlib.Path) -> None:
     pack_model(model_rpath, hotstart_file)
 
 
-def run_model_ssh(model_rpath: pathlib.Path) -> None:
-    raise NotImplementedError()
-
-
 def run_model(model_rpath: pathlib.Path) -> None:
     cmd = str(model_rpath / "launchSchism.sh")
     tools.run_cli(cmd, show_traceback=True, show_output=True)
+
+
+def run_model_ssh(model_rpath: pathlib.Path) -> None:
+    shared = pathlib.Path("/scratch/shared/rpath")
+    with tools.cli_log("Copying from control to cluster", "Copy: Successful!"):
+        cmd = f"cp -r {model_rpath} {shared}"
+        tools.run_cli(cmd=cmd, show_output=True, show_traceback=True)
+    with tools.cli_log("Executing model", "Model execution: Successful!"):
+        cmd = """ssh 10.10.0.5 -t 'bash -li -c "/scratch/shared/rpath/launchSchism.sh"'"""
+        tools.run_cli(cmd=cmd, show_output=True, show_traceback=True)
+    with tools.cli_log("Copying from cluster to control", "Copy: Successful!"):
+        shutil.copytree(shared / "outputs", model_rpath / "outputs")
