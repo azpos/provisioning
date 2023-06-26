@@ -215,6 +215,6 @@ def create_hosts_file():
     (PLAYBOOKS / "hosts.yml").write_text(proc.stdout)
     #
     cmd = "ansible-inventory --host master"
-    proc = run_cli(cmd, cwd=PLAYBOOKS, show_output=True, show_traceback=True)
+    proc = run_cli(cmd, cwd=PLAYBOOKS, show_output=False, show_traceback=True)
     cmd = "ansible-inventory --host control"
-    proc = run_cli(cmd, cwd=PLAYBOOKS, show_output=True, show_traceback=True)
+    proc = run_cli(cmd, cwd=PLAYBOOKS, show_output=False, show_traceback=True)
