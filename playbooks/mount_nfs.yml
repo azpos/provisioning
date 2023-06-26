@@ -39,6 +39,3 @@
         opts: "rw,sync,hard"
         state: "ephemeral"
         fstype: "nfs"
-
-    - name: "Sent notification"
-      ansible.builtin.command: "/home/azuser/.local/bin/ntfy send 'Provisioning of WORKER finished: {{ now(utc=True) }}'"
