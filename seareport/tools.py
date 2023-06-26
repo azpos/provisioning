@@ -211,5 +211,10 @@ def retrieve_grib(url: str, destination: pathlib.Path, auth: tuple[str, str] | N
 
 def create_hosts_file():
     cmd = "jaz templates/hosts.yml"
-    proc = run(cmd, cwd=PLAYBOOKS, check=True)
+    proc = run_cli(cmd, cwd=PLAYBOOKS, show_output=True, show_traceback=True)
     (PLAYBOOKS / "hosts.yml").write_text(proc.stdout)
+    #
+    cmd = "ansible-inventory --host master"
+    proc = run_cli(cmd, cwd=PLAYBOOKS, show_output=True, show_traceback=True)
+    cmd = "ansible-inventory --host control"
+    proc = run_cli(cmd, cwd=PLAYBOOKS, show_output=True, show_traceback=True)

@@ -14,7 +14,6 @@ def exec_playbook(playbook: str, group: str, **kwargs) -> None:
         extra_vars=" ".join(f"{key}={value}" for key, value in kwargs.items())
     else:
         extra_vars = ""
-    tools.create_hosts_file()
     cmd = f"""ansible-playbook -i hosts.yml -l {group} --extra-vars "{extra_vars}" {playbook}"""
     env = os.environ.copy()
     env["ANSIBLE_CALLBACKS_ENABLED"] = "ansible.posix.profile_tasks"
@@ -24,6 +23,7 @@ def exec_playbook(playbook: str, group: str, **kwargs) -> None:
 
 @eliot.log_call
 def exec_playbooks(playbooks: list[str], group: str, **kwargs) -> None:
+    tools.create_hosts_file()
     for playbook in playbooks:
         exec_playbook(playbook=playbook, group=group, **kwargs)
 
