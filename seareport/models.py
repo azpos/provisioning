@@ -213,6 +213,6 @@ def run_model_ssh(model_rpath: pathlib.Path, timeout: int) -> None:
         # cmd = """ssh 10.10.0.5 -t 'bash -li -c "/scratch/shared/rpath/launchSchism.sh"'"""
         # tools.run_cli(cmd=cmd, show_output=True, show_traceback=True)
     with tools.cli_log("Copying from cluster to control", "Copy: Successful!"):
-        cmd = f"cp -r {model_rpath / 'outputs'} {shared / 'outputs'}"
+        cmd = f"cp -r {shared / 'outputs'} {model_rpath / 'outputs'}"
         tools.run_cli(cmd=cmd, show_output=True, show_traceback=True)
         # shutil.copytree(shared / "outputs", model_rpath / "outputs", dirs_exist_ok=True)
