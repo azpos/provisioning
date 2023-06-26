@@ -33,8 +33,8 @@ def create(
     Practically speaking, this means bringing up one HPC node and provisioning it as the master.
     """
     cluster_scale(capacity=1, show_traceback=show_traceback, show_output=show_output)
-    provisioning.unmount_nfs_on_control()
     provisioning.setup_master()
+    provisioning.unmount_nfs_on_control()
     provisioning.mount_nfs_on_control()
     return 0
 
