@@ -152,7 +152,7 @@ def merge_results(model_rpath: pathlib.Path) -> pathlib.Path:
     for file in to_be_merged:
         rich.print(f"[bold]{file}[bold]")
     print()
-    ds = xr.open_mfdataset(to_be_merged, data_vars="minimal", parallel=True)
+    ds = xr.open_mfdataset(to_be_merged, data_vars="minimal", parallel=False)
     #ds = ptools.merge_netcdfs(to_be_merged, max_size=3)
     rich.print("\n[italic bold green]Merge operation: Successful!")
     ds["max_elev"] = ds.elev.max("time")
