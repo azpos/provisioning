@@ -6,7 +6,7 @@ import typer
 from .cluster_app import cluster_app
 from .data_app import data_app
 from .model_app import model_app
-from ..various import login as api_login
+from ..various import do_login
 from ..various import healthcheck as api_healthcheck
 
 
@@ -30,10 +30,12 @@ app.add_typer(model_app, name="model")
 def login(
     # fmt: off
     timeout: Annotated[int, typer.Option(help="The timeout countdown. If it expires, you probably haven't setup the managed identity correctly.")] = 5,
+    no_attempts: Annotated[int, typer.Option(help="How many times to retry to login")] = 3,
     # fmt: on
 ) -> int:
     """Login to [blue]azure-cli[/blue] and [blue]azcopy[/blue] using [italic]system-managed-identity[/italic]."""
-    api_login(timeout=timeout)
+    do_login("az login --identity", timeout=timeout, no_attempts=no_attempts)
+    do_login("azcopy login --identity", timeout=timeout, no_attempts=no_attempts)
 
 
 @app.command()
