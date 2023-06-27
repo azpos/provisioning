@@ -214,8 +214,3 @@ def upload_results(
         url = f"https://ppwdevarchivecoolsa.blob.core.windows.net/{model_name}-packs/"
         cmd = f"azcopy copy {pack} {url}"
         tools.run_cli(cmd=cmd, show_output=True, show_traceback=True)
-
-    with tools.cli_log(f"Cleaning up!", "Cleaning up: Successful!"):
-        netcdf.unlink()
-        pack.unlink()
-        shutil.rmtree(model_rpath)
