@@ -7,5 +7,5 @@
 
     - name: "launch schism"
       ansible.builtin.command: "/scratch/shared/rpath/launchSchism.sh"
-      async: "{{ timeout | int }}"
+      async: "{{ mpi_timeout | int }}"
       poll: 10

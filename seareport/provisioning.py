@@ -49,8 +49,8 @@ def setup_master():
 
 
 @eliot.log_call
-def launch_schism(timeout: int):
-    exec_playbooks(playbooks=["launch_schism.yml"], group="master", timeout=timeout)
+def launch_schism(mpi_timeout: int):
+    exec_playbooks(playbooks=["launch_schism.yml"], group="master", mpi_timeout=mpi_timeout)
 
 
 @eliot.log_call

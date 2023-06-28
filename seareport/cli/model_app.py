@@ -51,16 +51,16 @@ def run(
     timestamp: Annotated[datetime.datetime, TIMESTAMP_OPTION],
     base_rpath: Annotated[pathlib.Path, BASE_RPATH_OPTION] = pathlib.Path("./"),
     ssh: Annotated[bool, typer.Option(help="Flag indicating whether we should try to run schism over SSH or not")] = False,
-    timeout: Annotated[float, typer.Option(help='The timeout threshold (in minutes) for running schism')] = 40,
+    mpi_timeout: Annotated[float, typer.Option(help='The timeout threshold (in minutes) for running schism')] = 40,
     # fmt: on
 ) -> int:
     """Execute the model."""
-    timeout = int(timeout * 60)
+    mpi_timeout = int(mpi_timeout * 60)
     model_rpath = tools.get_rpath_from_timestamp(base_rpath=base_rpath, timestamp=timestamp)
     if ssh:
-        models.run_model_ssh(model_rpath, timeout=timeout)
+        models.run_model_ssh(model_rpath, mpi_timeout=mpi_timeout)
     else:
-        models.run_model(model_rpath, timeout=timeout)
+        models.run_model(model_rpath, mpi_timeout=mpi_timeout)
 
 
 @model_app.command()
