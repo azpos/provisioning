@@ -97,7 +97,7 @@ def gen_next(
         next_model_cast = pcast.set(
             solver_name="schism",
             model=previous_model,  # reference model
-            ppath=previous_model.rpath,  # original path
+            ppath=str(previous_rpath),  # original path
             cpath=str(current_rpath),  # new path
             meteo=str(meteo_file),  # new meteo
             sdate=current_timestamp,  # new start time
