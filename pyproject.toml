@@ -13,8 +13,6 @@ python = "^3.10"
 ansible = {version = "^7.6.0", extras = ["azure"]}
 typer = {version = ">=0.9.0", extras = ["all"]}
 pyposeidon = {git = "https://github.com/ec-jrc/pyPoseidon.git"}
-eliot = "*"
-eliot-tree = "*"
 pydantic = {version = ">1", allow-prereleases = true}
 pydantic-settings = {version = ">1", allow-prereleases = true}
 natsort = "*"
@@ -23,7 +21,6 @@ tenacity = "*"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "*"
-ruff = "*"
 ipykernel = "*"
 
 [build-system]

@@ -1,6 +1,5 @@
 from typing import Annotated
 
-import eliot
 import typer
 
 from .cluster_app import cluster_app
@@ -26,7 +25,6 @@ app.add_typer(model_app, name="model")
 
 
 @app.command()
-@eliot.log_call
 def login(
     # fmt: off
     timeout: Annotated[int, typer.Option(help="The timeout countdown. If it expires, you probably haven't setup the managed identity correctly.")] = 5,
@@ -39,7 +37,6 @@ def login(
 
 
 @app.command()
-@eliot.log_call
 def healthcheck() -> int:
     """
     Check that all the necessary resources have been created

@@ -7,7 +7,6 @@ PLAYBOOKS = ROOT_DIR / "playbooks"
 
 # from typing import Annotated
 #
-# import eliot
 # import typer
 #
 # from .cli.cluster_app import cluster_app

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import shutil
 
-import eliot
 import rich
 import typer
 
@@ -21,7 +20,6 @@ az vmss scale \\
 """.strip()
 
 
-@eliot.log_call
 def cluster_sanity_check() -> None:
     check_settings()
     check_executables_are_available()
@@ -37,7 +35,6 @@ def check_executables_are_available():
             raise typer.Abort()
 
 
-@eliot.log_call
 def cluster_scale(capacity: int, show_traceback: bool, show_output: bool) -> None:
     cluster_sanity_check()
     settings = Settings()

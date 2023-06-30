@@ -1,7 +1,6 @@
 from typing import Annotated
 from typing import NoReturn
 
-import eliot
 import rich
 import typer
 
@@ -22,7 +21,6 @@ cluster_app = typer.Typer(
 
 
 @cluster_app.command()
-@eliot.log_call
 def create(
     show_traceback: Annotated[bool, SHOW_TRACEBACK_OPTION] = False,
     show_output: Annotated[bool, SHOW_OUTPUT_OPTION] = False,
@@ -40,7 +38,6 @@ def create(
 
 
 @cluster_app.command()
-@eliot.log_call
 def destroy(
     show_traceback: Annotated[bool, SHOW_TRACEBACK_OPTION] = False,
     show_output: Annotated[bool, SHOW_OUTPUT_OPTION] = False,
@@ -54,7 +51,6 @@ def destroy(
 
 
 @cluster_app.command()
-@eliot.log_call
 def scale_workers(
     no_workers: Annotated[int, typer.Argument(min=0)],
     show_traceback: Annotated[bool, SHOW_TRACEBACK_OPTION] = False,
