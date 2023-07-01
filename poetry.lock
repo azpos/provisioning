@@ -761,6 +761,16 @@ findlibs = "*"
 numpy = "*"
 
 [[package]]
+name = "ecmwf-api-client"
+version = "1.6.3"
+description = "Python client for ECMWF web services API."
+optional = false
+python-versions = "*"
+files = [
+    {file = "ecmwf-api-client-1.6.3.tar.gz", hash = "sha256:3a00bda34a72e2d5198c97399a4750b42a6633efdb5e1b3a5fd2b2bbaa5db0d6"},
+]
+
+[[package]]
 name = "erddapy"
 version = "2.0.2"
 description = "Python interface for ERDDAP"
@@ -3343,4 +3353,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "acf8fc413dd99010f9133c05442983a498aa467d92a2af388b1985a73d694b32"
+content-hash = "ad0a55fc93d89c2e3bcac90fe7c8de8f3fd062c221cac741f2a641a6a999ee50"
