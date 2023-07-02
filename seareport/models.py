@@ -31,7 +31,7 @@ def get_model_definition(
         "meteo_source": [str(meteo_file)],
         "update": ["model", "meteo"],
         "rpath": str(tools.get_rpath_from_timestamp(base_rpath=base_rpath, timestamp=timestamp)),
-        "monitor": True,
+        "obs": str(base_model / "stations.json"),
         # "meteo_split_by": "day",
         "parameters": {
             "dt": 150,
@@ -60,8 +60,8 @@ def gen_initial(
     model = pmodel.set(**model_definition)
     model.create()  # constructs all required parts e.g. mesh, dem, meteo, etc.
     model.output()  # save to files
-    model.save()  # saves the json model reference file
     model.set_obs()  # setup station points
+    model.save()  # saves the json model reference file
     # Explicitly copy the launchSchism.sh from the base_model
     shutil.copy2(base_model / "launchSchism.sh", model.rpath)
     return model
