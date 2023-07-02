@@ -31,7 +31,8 @@ def get_model_definition(
         "meteo_source": [str(meteo_file)],
         "update": ["model", "meteo"],
         "rpath": str(tools.get_rpath_from_timestamp(base_rpath=base_rpath, timestamp=timestamp)),
-        "meteo_split_by": "day",
+        "monitor": True,
+        # "meteo_split_by": "day",
         "parameters": {
             "dt": 150,
             "rnday": 3.0,
